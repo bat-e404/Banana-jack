@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+   
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://csshake.surge.sh/csshake.min.css">
+    <link rel="stylesheet" href="assets/css/alertify.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0"></script>
+    <!-- Animacion de Cartas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+
+    <header class="titulo">
+        BANANA-JACK 
+    </header>
+
+    <div class="mt-2 ">
+        <div class="col d-flex justify-content-center">
+            <button id="btnPlayGame" class="btn custom-btn-uno shake-slow">🔄 Nuevo Juego</button>
+            <button id="btnGetCard" class="btn custom-btn-dos shake">🎴 Pedir Carta</button>
+            <button id="btnStop" class="btn custom-btn-dos shake-little">✋ Detener</button>
+        </div>
+    </div>
+    
+    <div class="row container mt-4">
+        <div class="col-1 d-flex align-items-center justify-content-center imagen-usuario">
+            <img src="assets/img/user-img.png" alt="Imagen de Monito" class="img-fluid user-img shake-rotate">
+        </div>
+        <div class="col-2 d-flex align-items-center justify-content-center imagen-usuario-nombre">
+            <p id="user-name" class="text-center">Monito </p>
+        </div>
+        <div class="col-1 d-flex align-items-center justify-content-center imagen-usuario">
+            <small id="user-points">0</small>
+        </div>
+
+    </div>
+    <div class="row container mt-2">
+        <div class="col">
+            <div id="jugador-cartas"><!--
+                <img class="carta" src="assets/cartas_banana/10C.png" >-->
+            </div>
+        </div>
+    </div>
+
+    <div class="row container mt-4">
+        <div class="col-1 d-flex align-items-center justify-content-center imagen-usuario">
+            <img src="assets/img/compu-img.png" alt="Imagen de Monito" class="img-fluid user-img shake-rotate">
+        </div>
+        <div class="col-2 d-flex align-items-center justify-content-center imagen-usuario-nombre">
+            <p id="user-name" class="text-center">COMPU </p>
+        </div>
+        <div class="col-1 d-flex align-items-center justify-content-center imagen-usuario">
+            <small id="compu-points">0</small>
+        </div>
+
+    </div>
+    <div class="row container mt-2">
+        <div class="col">
+            <div id="compu-cartas">
+                
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/js/alertify.min.js"></script>
+    <script src="assets/js/underscore.js"></script>
+    <script src="assets/js/juego.js"></script> 
+</body>
+</html>

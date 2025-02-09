@@ -1,0 +1,110 @@
+@font-face {
+    font-family: 'DailyBubble';
+    src: url('../fonts/DailyBubble.ttf') format('truetype');
+    font-weight: normal;
+    font-size: normal;
+}
+
+@font-face {
+    font-family: 'Mabook';
+    src: url('../fonts/Mabook.ttf') format('truetype');
+    font-weight: normal;
+    font-size: normal;
+}
+/* Esto no funciona en linux */
+body {
+    cursor: url('../img/pointer.png'), auto;
+}
+
+html, body {
+    margin: 0px;
+    padding: 0px;
+    /*background-color: #578E7E;*/
+    background-image: url('../img/fondo.png');
+    background-position: center; 
+    color: #FFFAEC;
+}
+
+.titulo {
+    text-align: center;
+    background-color: #3D3D3D;
+    color: #FFFAEC;
+    padding: 10px 0px 10px 0px;
+    font-family: 'DailyBubble';
+    font-size: 45px;
+    box-shadow: 15px 5px 10px hwb(132 15% 64% / 0.149);
+}
+
+.custom-btn-uno {
+    background-color: #DA498D;
+    color: #FFFAEC;
+    border: none;
+    font-size: 20px;
+    margin: 0 15px 0 15px;
+}
+
+.custom-btn-uno:hover {
+    background-color: #c93279;
+    color: #FFFAEC;
+}
+
+.custom-btn-dos{
+    background-color: #C30E59;
+    color: #FFFAEC;
+    border: none;
+    font-size: 20px;
+    margin: 0 15px 0 15px;
+}
+
+.custom-btn-dos:hover {
+    background-color: #960c45;
+    color: #FFFAEC;
+}
+.user-img {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+}
+
+#user-name{
+    padding-top: 10px;
+    font-family: 'Mabook';
+    font-size: 24px;
+    color: #FFFAEC;
+}
+
+small {
+    font-family: 'Mabook';
+    font-size: 24px;
+    color: #FFFAEC;
+}
+
+.carta{
+    position: relative;
+    width: 125px;
+    left: 100px;
+    margin-left: -75px;
+    border: #123f29 solid 2px;
+    border-radius: 15px;
+}
+
+#jugador-cartas, #compu-cartas {
+    height: 150px;
+    margin-bottom: 25px;
+}
+
+
+.imagen-usuario {
+    background-image: url('../img/buttonSquare_beige.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.imagen-usuario-nombre {
+    background-image:  url('../img/buttonLong_beige.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+

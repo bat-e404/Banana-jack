@@ -243,6 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Nuevo Juego
   btnPlayGame.addEventListener('click', () => {
+    deck = [];
     // Creacion del deck
     createDeck();
     sectionCardUser.innerHTML   = "";

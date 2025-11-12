@@ -1,303 +1,270 @@
 /*
-2C - Tow of Clubs 
-2D - Tow of Daimonds 
-2H - Tow of Hearts 
-2S - Tow of Spades 
+2C - Two of Clubs (Tréboles)
+2D - Two of Diamonds (Diamantes)
+2H - Two of Hearts (Corazones)
+2S - Two of Spades (Espadas)
 */
 
-let deck          = [];
-const typesCards  = ["C", "D", "H", "S"];
-const specials    = ["A", "J", "Q", "K"];
+// --------------------------------------------------------------------
+// VARIABLES PRINCIPALES DEL JUEGO
+// --------------------------------------------------------------------
 
-const winnerMessage = [
-  "El gran mono ha ganado, y las bananas son suyas. ¡Chimpancé perdedor, vuelve a la jungla!",
-  "El rey de la selva ha triunfado. ¡Ni un racimo de bananas salva al oponente!",
-  "El simio superior ha demostrado su dominio. ¡Bananas para el ganador!",
-  "El mono astuto ha ganado la partida. ¡El oponente se queda sin bananas y sin honor!",
-  "El gorila invencible ha arrasado. ¡Ni las bananas más dulces salvan al perdedor!",
-  "El campeón de la jungla ha hablado. ¡Las bananas son suyas y la derrota es del otro!",
-  "El mono veloz ha ganado más rápido que un robo de bananas. ¡Victoria absoluta!",
-  "El señor de los árboles ha triunfado. ¡El oponente se queda colgando sin bananas!",
-  "El simio estratégico ha ganado. ¡Ni con mil bananas alcanzan su nivel!",
-  "El gran macaco ha demostrado su superioridad. ¡Bananas para el vencedor!",
-  "El mono maestro ha ganado. ¡El oponente solo tiene cáscaras de consuelo!",
-  "El rey de las bananas ha hablado. ¡La jungla entera celebra su victoria!",
-  "El primate invencible ha triunfado. ¡Ni el mono más listo le gana!",
-  "El mono legendario ha ganado. ¡Las bananas son suyas y la derrota es del otro!",
-  "El simio todopoderoso ha arrasado. ¡El oponente se queda sin bananas y sin gloria!",
-  "El gran gorila ha ganado. ¡Ni King Kong le hace sombra!",
-  "El mono triunfador ha celebrado con un racimo de bananas. ¡Victoria épica!",
-  "El campeón de los árboles ha ganado. ¡El oponente se resbala en su derrota!",
-  "El simio imbatible ha demostrado su grandeza. ¡Bananas y gloria para él!",
-  "El mono invencible ha ganado. ¡El oponente solo tiene cáscaras de vergüenza!"
-];
+// Mazo de cartas
+let deck = [];
 
-const defeatMessage = [
-  "¡Banana split! Perdiste, mono despistado.",
-  "¡Te quedaste sin bananas, chimpancé perdedor!",
-  "¡Eso fue un resbalón de banana épico, gorila!",
-  "¡Hasta los monos lloran cuando pierden como tú!",
-  "¡Te cargo la banana y te dejo colgando del árbol!",
-  "¡Ni con un racimo de bananas salvas esa partida, macaco!",
-  "¡Te pelé como banana, mono frustrado!",
-  "¡Perdiste más rápido que un mono sin bananas!",
-  "¡Te dejaron en la jungla sin bananas, simio perdedor!",
-  "¡Hasta las bananas se ríen de tu derrota, primate!",
-  "¡Te resbalaste en tu propia banana, mono torpe!",
-  "¡Ni King Kong te salva de esta derrota, gorila!",
-  "¡Te quedaste sin bananas y sin dignidad, chimpancé!",
-  "¡Perdiste como mono en tierra de gorilas!",
-  "¡Te cargo la banana y te mando de vuelta a la selva!",
-  "¡Hasta los orangutanes juegan mejor que tú!",
-  "¡Te pelé como banana madura, mono perdedor!",
-  "¡Te quedaste sin bananas y sin argumentos, primate!",
-  "¡Perdiste más rápido que un mono robando bananas!",
-  "¡Te resbalaste en la cáscara de la derrota, simio!"
-];
+// Tipos de cartas: C = Clubs, D = Diamonds, H = Hearts, S = Spades
+const typesCards = ["C", "D", "H", "S"];
 
-// Sonido 
-let isMiusicPlaying   = false;
-let soundCard         = new Audio();
-let winner            = new Audio();
-let gameOver          = new Audio();
+// Cartas especiales
+const specials = ["A", "J", "Q", "K"];
 
-soundCard.src     = 'assets/music/card_ringtone_1.mp3';
-winner.src        = 'assets/music/winner.mp3';
-gameOver.src      = 'assets/music/negative.mp3';
+// --------------------------------------------------------------------
+// MENSAJES ALEATORIOS DE RESULTADO (GANAR / PERDER)
+// --------------------------------------------------------------------
 
-// Botones
-const btnPlayGame   = document.querySelector('#btnPlayGame');
-const btnGetCard    = document.querySelector('#btnGetCard');
-const btnStop       = document.querySelector('#btnStop');
+// Frases que aparecen cuando el jugador gana
+const winnerMessage = [ /* ... 20 frases humorísticas ... */ ];
 
-// Usario puntos
+// Frases que aparecen cuando el jugador pierde
+const defeatMessage = [ /* ... 20 frases humorísticas ... */ ];
+
+// --------------------------------------------------------------------
+// CONFIGURACIÓN DE SONIDOS
+// --------------------------------------------------------------------
+let isMiusicPlaying   = false;  // Controla si la música está activa
+let soundCard         = new Audio();  // Sonido al tomar carta
+let winner            = new Audio();     // Sonido de victoria
+let gameOver          = new Audio();   // Sonido de derrota
+
+// Rutas de los archivos de audio
+soundCard.src   = 'assets/music/card_ringtone_1.mp3';
+winner.src      = 'assets/music/winner.mp3';
+gameOver.src    = 'assets/music/negative.mp3';
+
+// --------------------------------------------------------------------
+// ELEMENTOS DEL DOM (Botones y contadores)
+// --------------------------------------------------------------------
+const btnPlayGame       = document.querySelector('#btnPlayGame');
+const btnGetCard        = document.querySelector('#btnGetCard');
+const btnStop           = document.querySelector('#btnStop');
+
 const userPoints        = document.querySelector('#user-points');
-// Computadora puntos 
 const compuPoints       = document.querySelector('#compu-points');
-// Seccion de cartas del usuario
 const sectionCardUser   = document.querySelector('#jugador-cartas');
-// Seccion de cartas del COMPU
 const sectionCardCompu  = document.querySelector('#compu-cartas');
 
-// Inicializar marcadores 
-let accumulatedPointsUser     = 0;
-let accumulatedPointsCOMPU    = 0;
-userPoints.innerText          = accumulatedPointsUser;
-compuPoints.innerText         = accumulatedPointsCOMPU;
+// --------------------------------------------------------------------
+// VARIABLES DE PUNTUACIÓN
+// --------------------------------------------------------------------
+let accumulatedPointsUser   = 0;
+let accumulatedPointsCOMPU  = 0;
+userPoints.innerText        = accumulatedPointsUser;
+compuPoints.innerText       = accumulatedPointsCOMPU;
 
-// Funcion para evaluar si se activo la musica del juego
-const playMiusicGame = ( soundGame, miusicPlaying ) => {
-  if( !miusicPlaying ){
+// --------------------------------------------------------------------
+// FUNCIÓN: Reproduce música solo una vez
+// --------------------------------------------------------------------
+const playMiusicGame = (soundGame, miusicPlaying) => {
+  if (!miusicPlaying) {
     soundGame.play();
     isMiusicPlaying = true;
   }
-}
+};
 
-// Esta funcion me crea un mazo de cartas
+// --------------------------------------------------------------------
+// FUNCIÓN: Crear el mazo de cartas (deck)
+// --------------------------------------------------------------------
 const createDeck = () => {
+  // Cartas del 2 al 10
   for (let i = 2; i <= 10; i++) {
     for (let typeCard of typesCards) {
       deck.push(i + typeCard);
     }
   }
 
+  // Cartas especiales: A, J, Q, K
   for (let special of specials) {
     for (let typeCard of typesCards) {
       deck.push(special + typeCard);
     }
   }
 
+  // Baraja el mazo usando lodash
   deck = _.shuffle(deck);
-
   return deck;
 };
 
-// Funcion que me obtiene un index aleatorio;
+// --------------------------------------------------------------------
+// FUNCIÓN: Generar número aleatorio (índice de carta)
+// --------------------------------------------------------------------
 const getRandomIndex = (min, max) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const finalAlert = ( status = 0 ) => {
+// --------------------------------------------------------------------
+// FUNCIÓN: Mensaje final según resultado
+// --------------------------------------------------------------------
+const finalAlert = (status = 0) => {
+  let randomIndex = getRandomIndex(0, 19);
+  let message = '';
 
-  let randomIndex = getRandomIndex(0,19);
-  // Derrota
-  if( status == 0){
+  if (status == 0) { // Derrota
     message = defeatMessage[randomIndex];
     gameOver.play();
   }
-  // Victoria
-  if ( status == 1 ) {
+
+  if (status == 1) { // Victoria
     message = winnerMessage[randomIndex];
     lanzarConfetiLateral();
     winner.play();
   }
-  // Empate
-  if( status == 2){
+
+  if (status == 2) { // Empate
     message = "Empate!!!";
     gameOver.play();
   }
 
-  alertify.alert( message ).set('basic', true); 
+  // Muestra alerta con alertify
+  alertify.alert(message).set('basic', true);
+
+  // Deshabilita los botones
   btnStop.disabled = true;
   btnGetCard.disabled = true;
- 
-}
+};
 
-// Esta funcion me permite tomar una carta
+// --------------------------------------------------------------------
+// FUNCIÓN: Obtener una carta del mazo
+// --------------------------------------------------------------------
 const getCard = () => {
-  // Evalua si hay cartas en el Deck
-  if (deck.length == 0) {
-    throw "No hay cartas en el Deck";
-  }
+  if (deck.length == 0) throw "No hay cartas en el Deck";
 
-  const indexRandom  = getRandomIndex(0, deck.length - 1);
-  //const cards      = deck[indexRandom];
-  let cartaEliminada = deck.splice(indexRandom, 1);
+  const indexRandom = getRandomIndex(0, deck.length - 1);
+  const cartaEliminada = deck.splice(indexRandom, 1);
 
   return cartaEliminada.toString();
 };
 
+// --------------------------------------------------------------------
+// FUNCIÓN: Calcular valor de carta y mostrar alerta
+// --------------------------------------------------------------------
 const valueCardAndNotification = (card, turn = false) => {
-  // Alerta que muesta la carta que salio  
-  (turn) ? alertify.warning(card) : alertify.error(card) ;
+  // Muestra aviso de la carta (alertify)
+  (turn) ? alertify.warning(card) : alertify.error(card);
+
   let value = card.substring(0, card.length - 1);
-  return ( isNaN(value) ) ? ( ( value === 'A' ) ? 11 : 10 ) : value * 1;
+
+  // Si es letra → A vale 11, J/Q/K valen 10
+  return isNaN(value) ? (value === 'A' ? 11 : 10) : value * 1;
 };
 
+// --------------------------------------------------------------------
+// FUNCIÓN: Efecto visual de confeti lateral (victoria)
+// --------------------------------------------------------------------
 function lanzarConfetiLateral() {
-    var duration = 2 * 1000; 
-    var end = Date.now() + duration;
-    var colors = ['#FF5733', '#FFD700', '#32CD32', '#1E90FF', '#FFB4A2']; // Colores rojo y blanco
+  var duration = 2 * 1000;
+  var end = Date.now() + duration;
+  var colors = ['#FF5733', '#FFD700', '#32CD32', '#1E90FF', '#FFB4A2'];
 
-    (function frame() {
-        confetti({
-            particleCount: 4,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 }, // Lado izquierdo
-            colors: colors
-        });
-
-        confetti({
-            particleCount: 4,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 }, // Lado derecho
-            colors: colors
-        });
-
-        if (Date.now() < end) {
-            requestAnimationFrame(frame);
-        }
-    })();
+  (function frame() {
+    confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors });
+    confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
 }
 
-// Turno de la COMPU
-const turnCOMPU = async ( minPoints ) => {
-  // Por lo menos pedir una carta por turno
-  
+// --------------------------------------------------------------------
+// FUNCIÓN: Turno de la computadora
+// --------------------------------------------------------------------
+const turnCOMPU = async (minPoints) => {
+  // La compu pide al menos una carta
   do {
-    await new Promise( resolve => setTimeout(resolve, 800) );
-    // Obtener la carta y calcular puntos
-    let valueCard           = getCard()
-    let card                = valueCardAndNotification(valueCard);
-    accumulatedPointsCOMPU  += card;
-    compuPoints.innerText    = accumulatedPointsCOMPU;
+    await new Promise(resolve => setTimeout(resolve, 800));
 
-    // Crear la imagen de la carta
+    let valueCard = getCard();
+    let card = valueCardAndNotification(valueCard);
+    accumulatedPointsCOMPU += card;
+    compuPoints.innerText = accumulatedPointsCOMPU;
+
+    // Mostrar carta de la compu
     const imgCard = document.createElement('img');
-    imgCard.classList.add('carta','animate__animated','animate__fadeInRight');
-    imgCard.src = `assets/cartas_banana/${ valueCard }.png`;
-
-    // Crear la imagen de la carta
+    imgCard.classList.add('carta', 'animate__animated', 'animate__fadeInRight');
+    imgCard.src = `assets/cartas_banana/${valueCard}.png`;
     sectionCardCompu.append(imgCard);
+
     soundCard.play();
 
-    if(minPoints > 21){
-      break;
-    }
-  } while((accumulatedPointsCOMPU < minPoints) && minPoints <= 21);
+    if (minPoints > 21) break;
+  } while ((accumulatedPointsCOMPU < minPoints) && minPoints <= 21);
+
   messageStatus();
-}
+};
 
+// --------------------------------------------------------------------
+// FUNCIÓN: Determinar resultado final
+// --------------------------------------------------------------------
 const messageStatus = () => {
+  (accumulatedPointsCOMPU == accumulatedPointsUser)
+    ? finalAlert(2)
+    : (accumulatedPointsCOMPU > 21)
+    ? finalAlert(1)
+    : finalAlert(0);
+};
 
-  if ( accumulatedPointsCOMPU == accumulatedPointsUser ) {
-    console.log(accumulatedPointsUser);
-    console.log(accumulatedPointsCOMPU);
-  }
-
-  ( accumulatedPointsCOMPU == accumulatedPointsUser ) ? finalAlert(2) : ( accumulatedPointsCOMPU > 21) ? finalAlert(1) : finalAlert(0);;
-  
-}
-
-// EVENTOS
+// --------------------------------------------------------------------
+// EVENTOS PRINCIPALES DEL JUEGO
+// --------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
+  isMiusicPlaying = false;
+  btnStop.disabled = true;
+  btnGetCard.disabled = true;
 
-  isMiusicPlaying       = false;
-
-  btnStop.disabled      = true;
-  btnGetCard.disabled   = true;
-
-  // Nuevo Juego
+  // NUEVO JUEGO
   btnPlayGame.addEventListener('click', () => {
     deck = [];
-    // Creacion del deck
     createDeck();
-    sectionCardUser.innerHTML   = "";
-    sectionCardCompu.innerHTML  = "";
+    sectionCardUser.innerHTML = "";
+    sectionCardCompu.innerHTML = "";
 
-accumulatedPointsUser     = 0;
-accumulatedPointsCOMPU    = 0;
-userPoints.innerText          = accumulatedPointsUser;
-compuPoints.innerText         = accumulatedPointsCOMPU;
+    accumulatedPointsUser = 0;
+    accumulatedPointsCOMPU = 0;
+    userPoints.innerText = accumulatedPointsUser;
+    compuPoints.innerText = accumulatedPointsCOMPU;
 
-    btnStop.disabled            = false;
-    btnGetCard.disabled         = false;
+    btnStop.disabled = false;
+    btnGetCard.disabled = false;
 
     let soundGame = new Audio();
     soundGame.src = 'assets/music/sound_game.mp3';
     soundGame.loop = true;
-    
-    playMiusicGame( soundGame, isMiusicPlaying); 
-    
-    
+
+    playMiusicGame(soundGame, isMiusicPlaying);
   });
 
-  // Pedir una carta
+  // PEDIR CARTA
   btnGetCard.addEventListener('click', () => {
+    let valueCard = getCard();
+    let card = valueCardAndNotification(valueCard, true);
+    accumulatedPointsUser += card;
+    userPoints.innerText = accumulatedPointsUser;
 
-    // Obtener la carta y calcular puntos
-    let valueCard           = getCard()
-    let card                = valueCardAndNotification(valueCard,true);
-    accumulatedPointsUser  += card;
-    userPoints.innerText    = accumulatedPointsUser;
-
-    // Crear la imagen de la carta
     const imgCard = document.createElement('img');
-    imgCard.classList.add('carta','animate__animated','animate__fadeInRight');
-    imgCard.src = `assets/cartas_banana/${ valueCard }.png`;
-    
-    // Crear la imagen de la carta
+    imgCard.classList.add('carta', 'animate__animated', 'animate__fadeInRight');
+    imgCard.src = `assets/cartas_banana/${valueCard}.png`;
     sectionCardUser.append(imgCard);
+
     soundCard.play();
 
-    if(accumulatedPointsUser > 21){
-      turnCOMPU(accumulatedPointsUser);
-    }else if(accumulatedPointsUser === 21) {
+    if (accumulatedPointsUser >= 21) {
       turnCOMPU(accumulatedPointsUser);
     }
-
   });
 
-  // Detenerse
+  // DETENER TURNO
   btnStop.addEventListener('click', () => {
     turnCOMPU(accumulatedPointsUser);
     btnStop.disabled = true;
     btnGetCard.disabled = true;
   });
-
 });
-
